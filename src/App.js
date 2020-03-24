@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import Jumbotron from 'react-bootstrap/Jumbotron';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
@@ -15,7 +16,8 @@ class App extends React.Component {
 	
 	handleClick(e) {
 		e.preventDefault();
-		console.log("button clicked!");
+		axios.get('')
+			.then(res => console.log(res));
 	}
 
 	render(){
