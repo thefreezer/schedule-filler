@@ -29,7 +29,6 @@ class App extends React.Component {
   }
 
   handleInputChange(e){
-    console.log(e.target);
     this.setState({
       [e.target.name]: e.target.value
     })
@@ -39,10 +38,13 @@ class App extends React.Component {
 	  e.preventDefault();
     console.log(this.state);
 
-    /*
-    axios.get('')
+    // LOCALHOST for now
+    // will most likely switch to a POST req
+    // api/term/course_id/start_time/end_time
+    const url = 'http://localhost:8000/api/'+this.state.term+'/'+this.state.course_id+'/'+this.state.start_time+'/'+this.state.end_time
+    
+    axios.get(url)
 	    .then(res => console.log(res));
-      */
   }
   
   

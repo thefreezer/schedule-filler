@@ -1,23 +1,23 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const mysql = require("mysql");
+//const mysql = require("mysql");
+//const dbconfig = require("./config/db.config.js");
 const cors = require("cors");
-const dbconfig = require("./config/db.config.js");
 const app = express();
 const api = require("./api/api");
 
-/*
 var corsOptions = {
-  origin = "http://localhost:8000"
+  origin : "http://localhost:3000"
 }
-*/
 
-//app.use(cors(corsOptions));
+
+app.use(cors(corsOptions));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
 
 
 // establishing mysql connection
+/*
 const conn = mysql.createConnection({
   host: dbconfig.HOST,
   user: dbconfig.USER,
@@ -33,23 +33,9 @@ conn.connect(function(err){
   console.log('connected as id: ' + conn.threadId);
 });
 
-app.use("/api", api);
-
-// Simple query that returns 5 rows
-/*
-app.get("/", (req,res) => {
-  conn.query("select * from uAlberta_Courses limit 5;", function(err,rows,fields){
-    if(err){
-      console.log("error while performing query: " + err);
-      return;
-    }
-
-  res.json(rows);
-  //conn.end();
-  });
-});
-
 */
+
+app.use("/api", api);
 
 // require("./server/routes")(app);
 
