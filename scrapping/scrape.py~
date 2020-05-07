@@ -1,0 +1,6 @@
+import requests
+
+URL = "https://catalogue.ualberta.ca/Course"
+page = requests.get(URL)
+
+print(page.content)
