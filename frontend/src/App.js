@@ -69,14 +69,14 @@ class App extends React.Component {
 			      <Form.Group as={Row} controlId="start_time">
 			        <Form.Label column sm={1}>From</Form.Label>
 			        <Col sm={2}>
-                <Form.Control type="time" onChange={this.handleInputChange}/>
+                <Form.Control type="time" name="start_time" onChange={this.handleInputChange}/>
 			        </Col>
 			      </Form.Group>
             
             <Form.Group as={Row} controlId="end_time">
               <Form.Label column sm={1}>To</Form.Label>
 			        <Col sm={2}>
-                <Form.Control type="time" onChange={this.handleInputChange}/>
+                <Form.Control type="time" name="end_time" onChange={this.handleInputChange}/>
 			        </Col>
             </Form.Group>         
               
