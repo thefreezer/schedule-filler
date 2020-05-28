@@ -58,122 +58,72 @@ class App extends React.Component {
     const terms = terms_data.map((term) => {return (<option value={term.id} key={term.id}>{term.name}</option>); });
     
 	  return(
-		<div>
-			<Container>
-				<Row>
-					<Col className="main">
-						<h1>
-							<span>Schedule Filler </span>
-							is a <span>web-based</span> tool that helps you
-							save time by finding courses at the <span className = "text-color">University of Alberta </span> 
-							which works with your schedule
-						</h1>
+		<div id="wrapper">
+			<main className= "main">
+				<section className = "main-1">	
+					<h1>
+						<span>Schedule Filler </span>
+						is a <span>web-based</span> tool that helps you
+						save time by finding courses at the <span className = "text-color">University of Alberta </span> 
+						which works with your schedule
+					</h1>
 						<a href="#term-select" className="down-button" variant="primary"></a>
-					</Col>	
-				</Row>
-				<Row id="term-select">
-					<Col className="section animated fade-in delay" data-animation-in="fade-in">
+				</section>
+				<section className = "term-select animated fade-in delay" data-animation-in="fade-in">
 						<h2>
 							Let's start with the course term
+							<div className = "term-input">
+								<h5>Term
+									<InputGroup className='mt-3' >
+									<FormControl className = 'text-centered'
+										placeholder="Enter the course term?"
+										aria-label="nter the course term?"
+										aria-describedby="basic-addon1"
+									/>
+									Year
+									</InputGroup>
+									<InputGroup className='mt-3' >
+										<FormControl className = 'text-centered'
+											placeholder="Enter the term year?"
+											aria-label="Enter the term year?"
+											aria-describedby="basic-addon1"
+										/>
+									</InputGroup>
+								</h5>
+							</div>
 						</h2>
-						<Row className = "term-input">
-							<h5>Term</h5>
-							<InputGroup className='mt-5' >
+				</section>
+			<section className = "term-select animated fade-in delay" data-animation-in="fade-in">
+				<h2> Now lets search for the course you are looking to take
+					<div className = "term-input">
+						<h5>Course
+							<InputGroup className='mt-3' >
 								<FormControl className = 'text-centered'
 									placeholder="Enter the course term?"
 									aria-label="nter the course term?"
 									aria-describedby="basic-addon1"
 								/>
-							<h5>Year</h5>
 							</InputGroup>
-							<InputGroup className='mt-5' >
-								<FormControl className = 'text-centered'
-									placeholder="Enter the term year?"
-									aria-label="Enter the term year?"
-									aria-describedby="basic-addon1"
-								/>
-							</InputGroup>
-						</Row>
-					</Col>
-				</Row>
-				<Row>
-					<Col className="section-time animated fade-in delay" data-animation-in="fade-in">
-						<h2>
-							Now it's time to select a start time for the course you're looking for
-						</h2>
-
-						<MDBCol className = "time-input text-centered"> 
-        					<MDBTimePicker id="timePicker " label='12hrs format' getValue={this.getPickerValue} />
-      					</MDBCol>
-						
-					</Col>
-
-				</Row>
-
-				<Row>
-					<Col className="section animated fade-in delay" data-animation-in="fade-in" data-animation-out="fade-out delay">
-						<h2>
-							The following course is/is not being offered at:
-						</h2>
-					</Col>	
-				</Row>
-	
-				{/* <div className = "main">
-					<div className = "banner-text">
-						<h1>Welcome to the</h1>
-						<h1> U of A </h1>
-						<h1>Schedule Filler App </h1>
+						</h5>
 					</div>
-				</div> */}
-				{/* <div className = "section-container">
-					<Container className="p-3">
-						<Jumbotron className ='mx-auto'>
-						<h3>Which courses do you want?</h3>
-					
-						<Form onSubmit={this.handleSubmit}>
-							<Form.Group as={Row} controlId="term">
-								<Form.Label column sm={1}>Term</Form.Label>
-								<Col sm={4}>
-									<Form.Control as="select" column sm={12} name="term" onChange={this.handleInputChange}>
-									<option></option>
-							{terms}
-									</Form.Control>
-								</Col>
-							</Form.Group>
-						
-							<Form.Group as={Row} controlId="start_time">
-								<Form.Label column sm={1}>From</Form.Label>
-								<Col sm={2}>
-							<Form.Control type="time" name="start_time" onChange={this.handleInputChange}/>
-								</Col>
-							</Form.Group>
-						
-						<Form.Group as={Row} controlId="end_time">
-						<Form.Label column sm={1}>To</Form.Label>
-								<Col sm={2}>
-							<Form.Control type="time" name="end_time" onChange={this.handleInputChange}/>
-								</Col>
-						</Form.Group>         
-						
-							<Form.Group as={Row} controlId="course_name">
-								<Form.Label column sm={1}>Course Name</Form.Label>
-								<Col sm={4}>
-									<Form.Control as="select" name="course_id" onChange={this.handleInputChange}>
-									<option></option>
-							{courses}
-									</Form.Control>
-								</Col>
-							</Form.Group>
-						
-							<Button variant="primary" type="submit">Submit</Button>
-						
-						</Form>
-					
-						</Jumbotron>
-					</Container>
-				</div> */}
-			</Container>
+				</h2>
+			</section>
+			<section className = "term-select animated fade-in delay"  data-animation-in="fade-in">
+				<h2>
+					Lastly, We'll need the start time that works for you best
+					<MDBCol className = "time-input text-centered"> 
+        				<MDBTimePicker id="timePicker " label='12hrs format' getValue={this.getPickerValue} />
+      				</MDBCol>
+					<Button variant="primary" type="submit">Submit</Button>
+				</h2>
+			</section>
+			<section className = "term-select animated fade-in delay"  data-animation-in="fade-in">
+				<h2>
+				The following course is/is not being offered at:
+				</h2>
 
+			</section>
+			</main>
 		</div>
 	  );
   }

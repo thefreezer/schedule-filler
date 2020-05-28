@@ -1,18 +1,53 @@
 :root{
-  --section-height: 50em;
   scroll-behavior: smooth;
 }
+
+#wrapper{
+  min-height: 100vh;
+}
+
+
 .background{
   background: rgb(142,45,226);
   background: linear-gradient(130deg, rgba(142,45,226,1) 0%, rgba(74,0,224,1) 44%, rgba(142,45,226,1) 100%); 
- 
 }
 
 .main{
-  position: relative;
-  height: var(--section-height);
+  width: 100%;
+  margin: 0px auto;
+  max-width: 1600px;
+  min-height: 100vh;
+  padding: 200px 150px;
+}
+.main-1{
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+  margin: 0px auto;
+  max-width: 1000px;
+  min-height: 100vh;
+  padding: 150px 0px;
+  justify-content: center;
   text-align: center;
-  padding-top: 10em;
+}
+
+.term-select{
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+  margin: 0px auto;
+  padding: 150px 0px;
+  min-height: 100vh;
+  max-width: 1000px;
+  justify-content: center;
+  text-align: center;
+}
+
+.term-input{
+  display: flex;
+  align-items: flex-start;
+  margin: 2.125em 15.62em 0px 15.62em;
+  opacity: 80%;
 }
 
 
@@ -32,14 +67,6 @@ h1 span{
 }
 
 
-.section{
-  /* position: relative; */
-  position: ab;
-  height: calc(var(--section-height) / 1.5);
-  text-align: center;
-  padding-top: 15em;
-  margin-bottom: 10em;
-}
 
 h2{
   font-size: 2.22em;
@@ -60,10 +87,6 @@ h5{
   text-align: center;
 }
 
-.term-input{
-  margin: 3.125em 15.62em 0px 15.62em;
-  opacity: 80%;
-}
 
 .section-time{
   /* position: relative; */
@@ -92,13 +115,8 @@ label{
 
 
 
-
-
-
-
-
 .down-button{
-  margin-top: 10em;
+  margin-top: 20em;
   position: absolute;
   width: 4em;
   height: 4em;
@@ -150,6 +168,6 @@ label{
   }
 }
 
-/* .delay{
+.delay{
   animation-delay: .30s !important;
-} */
+}
