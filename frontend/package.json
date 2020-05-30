@@ -12,7 +12,9 @@
     "mdbreact": "^4.26.1",
     "rc-time-picker": "^3.7.3",
     "react": "^16.13.1",
+    "react-autocomplete-input": "^1.0.13",
     "react-bootstrap": "^1.0.0",
+    "react-bootstrap-typeahead": "^5.0.0-rc.1",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.1"
   },
