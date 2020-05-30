@@ -1,20 +1,45 @@
 import 'rc-time-picker/assets/index.css';
-
+import moment from 'moment';
 import React from 'react';
 import axios from 'axios';
-import FormControl from 'react-bootstrap/FormControl';
-import InputGroup from 'react-bootstrap/InputGroup';
-import Button from 'react-bootstrap/Button';
-import courses_data from './data/courses.json';
-import terms_data from './data/terms.json';
-
-import { MDBTimePicker, MDBCol } from "mdbreact";
+import {Typeahead} from 'react-bootstrap-typeahead';
+import TimePicker from 'rc-time-picker';
+// import 'fs';
+// import course_data from './data/courses.json';
 
 
-import './App.css';			
+import './App.css';
+// import course_id from "./data/course.txt"
+
+		
+const terms = ["Fall","Winter","Spring","Summer"];
+// const day = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday", "M","T","W","TH",'F']
+const date = new Date().getFullYear();
+const years = [String(date), String(date + 1)];
+const now = moment().hour(0).minute(0);
+const format = 'h:mm a';
+
+
+// const fs = window.require('fs')
+// var text = fs.readFileSync("./men.text");
+// var string = text.toString('utf-8')
+// var textByLine = string.split("\n")
+// console.log(textByLine);
+// const cours_data = course_id[1]
+
+// console.log(cours_data)
+
+function onChange(value) {
+	console.log(value && value.format(format));
+  }
+  
+
 
 class App extends React.Component {
-  
+	term = {
+		selected: [],
+	};
+	
   constructor(props){
 	  super(props);
     this.state= {
@@ -49,8 +74,6 @@ class App extends React.Component {
   
   
   render(){
-    const courses = courses_data.map((course) => {return (<option value={course}>{course}</option>); });
-    const terms = terms_data.map((term) => {return (<option value={term.id} key={term.id}>{term.name}</option>); });
     
 	  return(
 		<div id="wrapper">
@@ -62,61 +85,75 @@ class App extends React.Component {
 						save time by finding courses at the <span className = "text-color">University of Alberta </span> 
 						which works with your schedule
 					</h1>
-						<a href="#term-select" className="down-button" variant="primary"></a>
+						<a href="#term" className="down-button" variant="primary">Down</a>
 				</section>
-				<section className = "term-select animated fade-in delay" data-animation-in="fade-in">
+
+
+			<section className = "term-select animated fade-in delay" data-animation-in="fade-in" id = "term">
+				<div className='course-term'>
+					<h2>
+						Lets start by searching for the course you are planning on taking
+						<Typeahead className="mt-5 mx-5 px-5"
+						{...this.years}
+						onChange={selected => this.setState({selected})}
+						options={years}
+						placeholder="Enter the course term?"
+						aria-label="Enter the course term?"
+						aria-describedby="basic-addon1"/>
+					</h2>
+				</div>
+
+			</section> 
+
+				<section className = "term-select animated fade-in delay text-centered" data-animation-in="fade-in" >
 						<h2>
-							Let's start with the course term
-							<div className = "term-input">
-								<h5>Term
-									<InputGroup className='mt-3' >
-									<FormControl className = 'text-centered'
-										placeholder="Enter the course term?"
-										aria-label="nter the course term?"
-										aria-describedby="basic-addon1"
-									/>
-									Year
-									</InputGroup>
-									<InputGroup className='mt-3' >
-										<FormControl className = 'text-centered'
-											placeholder="Enter the term year?"
-											aria-label="Enter the term year?"
-											aria-describedby="basic-addon1"
-										/>
-									</InputGroup>
-								</h5>
-							</div>
+							What term does this course works for you best
+							<Typeahead className="mt-5 mx-5 px-5"
+							{...this.terms}
+							onChange={selected => this.setState({selected})}
+							options={terms}
+							placeholder="Enter the course term?"
+							aria-label="Enter the course term?"
+							aria-describedby="basic-addon1"/>
+						</h2>		
+
+
+					<div className='course-term1'>
+						<h2>
+							And the Year 
+							<Typeahead className="mt-5 mx-5 px-5"
+							{...this.years}
+							onChange={selected => this.setState({selected})}
+							options={years}
+							placeholder="Enter the course term?"
+							aria-label="Enter the course term?"
+							aria-describedby="basic-addon1"/>
 						</h2>
-				</section>
-			<section className = "term-select animated fade-in delay" data-animation-in="fade-in">
-				<h2> Now lets search for the course you are looking to take
-					<div className = "term-input">
-						<h5>Course
-							<InputGroup className='mt-3' >
-								<FormControl className = 'text-centered'
-									placeholder="Enter the course term?"
-									aria-label="nter the course term?"
-									aria-describedby="basic-addon1"
-								/>
-							</InputGroup>
-						</h5>
 					</div>
-				</h2>
-			</section>
+	
+				</section>
+
+
 			<section className = "term-select animated fade-in delay"  data-animation-in="fade-in">
 				<h2>
-					Lastly, We'll need the start time that works for you best
-					<MDBCol className = "time-input text-centered"> 
-        				<MDBTimePicker id="timePicker " label='12hrs format' getValue={this.getPickerValue} />
-      				</MDBCol>
-					<Button variant="primary" type="submit">Submit</Button>
+					Lastly, We'll need to know what time you want to take this course
+					<div className = "course-term2">
+						<TimePicker className="mt-5 mx-1 px-5"
+						showSecond={false}
+						defaultValue={now}
+						className="xxx"
+						onChange={onChange}
+						format={format}
+						use12Hours
+						inputReadOnly
+					/>
+					</div>
 				</h2>
 			</section>
 			<section className = "term-select animated fade-in delay"  data-animation-in="fade-in">
 				<h2>
 				The following course is/is not being offered at:
 				</h2>
-
 			</section>
 			</main>
 		</div>
