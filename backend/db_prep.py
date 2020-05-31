@@ -1,7 +1,7 @@
 import mysql.connector
 from db_credentials import *
 import sys
-import os
+import json 
 
 def initialize(cr):
     db = scoped_credentials()
@@ -40,7 +40,7 @@ def initialize(cr):
             cr.execute(sql_output,inputed_data)
     
     path = "frontend/src/data/"
-    text_file = path + "course.txt"
+    text_file = path + "course.json"
     sql_query1 = ''' SELECT DISTINCT Dept_id
                     FROM uAlberta_Courses
                     union
@@ -51,13 +51,10 @@ def initialize(cr):
     data = [data[0] for data in cr.fetchall()] 
 
     with open(text_file, "w") as file:
-        file.write(str(data))
+        data = json.dumps(data)
+        file.write(data)
 
     file.close()
-            # print("test")
-            # for each_desc in data:
-            #     file.write(str(data)
-    # file.close()
 
     db.commit()
 

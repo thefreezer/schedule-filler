@@ -4,51 +4,31 @@ import React from 'react';
 import axios from 'axios';
 import {Typeahead} from 'react-bootstrap-typeahead';
 import TimePicker from 'rc-time-picker';
+import Button from 'react-bootstrap/Button'
 // import 'fs';
 // import course_data from './data/courses.json';
 
 
 import './App.css';
-// import course_id from "./data/course.txt"
+import course from "./data/course.json";
+
+
 
 		
 const terms = ["Fall","Winter","Spring","Summer"];
-// const day = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday", "M","T","W","TH",'F']
 const date = new Date().getFullYear();
 const years = [String(date), String(date + 1)];
 const now = moment().hour(0).minute(0);
 const format = 'h:mm a';
 
-
-// const fs = window.require('fs')
-// var text = fs.readFileSync("./men.text");
-// var string = text.toString('utf-8')
-// var textByLine = string.split("\n")
-// console.log(textByLine);
-// const cours_data = course_id[1]
-
-// console.log(cours_data)
-
 function onChange(value) {
 	console.log(value && value.format(format));
   }
-  
-
+  console.log(onChange)
 
 class App extends React.Component {
-	term = {
-		selected: [],
-	};
-	
   constructor(props){
 	  super(props);
-    this.state= {
-      term: '',
-      start_time: '',
-      end_time: '',
-      course_id: '',
-    };
-
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -61,7 +41,7 @@ class App extends React.Component {
   
   handleSubmit(e) {
 	  e.preventDefault();
-    console.log(this.state);
+	console.log(this.state);
 
     // LOCALHOST for now
     // will most likely switch to a POST req
@@ -71,6 +51,7 @@ class App extends React.Component {
     axios.get(url)
 	    .then(res => console.log(res));
   }
+  
   
   
   render(){
@@ -94,9 +75,9 @@ class App extends React.Component {
 					<h2>
 						Lets start by searching for the course you are planning on taking
 						<Typeahead className="mt-5 mx-5 px-5"
-						{...this.years}
+						{...this.course}
 						onChange={selected => this.setState({selected})}
-						options={years}
+						options={course}
 						placeholder="Enter the course term?"
 						aria-label="Enter the course term?"
 						aria-describedby="basic-addon1"/>
@@ -110,7 +91,7 @@ class App extends React.Component {
 							What term does this course works for you best
 							<Typeahead className="mt-5 mx-5 px-5"
 							{...this.terms}
-							onChange={selected => this.setState({selected})}
+							onChange={selected_term => this.setState({selected_term})}
 							options={terms}
 							placeholder="Enter the course term?"
 							aria-label="Enter the course term?"
@@ -123,10 +104,10 @@ class App extends React.Component {
 							And the Year 
 							<Typeahead className="mt-5 mx-5 px-5"
 							{...this.years}
-							onChange={selected => this.setState({selected})}
+							onChange={selected_year => this.setState({selected_year})}
 							options={years}
-							placeholder="Enter the course term?"
-							aria-label="Enter the course term?"
+							placeholder="Enter the year the course will be taken?"
+							aria-label="Enter the year the course will be taken?"
 							aria-describedby="basic-addon1"/>
 						</h2>
 					</div>
@@ -134,19 +115,22 @@ class App extends React.Component {
 				</section>
 
 
-			<section className = "term-select animated fade-in delay"  data-animation-in="fade-in">
+			<section className = "term-final animated fade-in delay"  data-animation-in="fade-in">
 				<h2>
 					Lastly, We'll need to know what time you want to take this course
 					<div className = "course-term2">
 						<TimePicker className="mt-5 mx-1 px-5"
 						showSecond={false}
 						defaultValue={now}
-						className="xxx"
-						onChange={onChange}
+						onChange={selected_time => this.setState({selected_time})}
 						format={format}
 						use12Hours
 						inputReadOnly
 					/>
+						<div className = "result-button">
+							<Button variant="outline-info">Get Results</Button>{' '}
+						</div>
+					
 					</div>
 				</h2>
 			</section>
@@ -154,12 +138,12 @@ class App extends React.Component {
 				<h2>
 				The following course is/is not being offered at:
 				</h2>
+
 			</section>
 			</main>
 		</div>
 	  );
   }
-  
 }
 
 export default App;                        
