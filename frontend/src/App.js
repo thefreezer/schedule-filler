@@ -5,9 +5,6 @@ import axios from 'axios';
 import {Typeahead} from 'react-bootstrap-typeahead';
 import TimePicker from 'rc-time-picker';
 import Button from 'react-bootstrap/Button'
-// import 'fs';
-// import course_data from './data/courses.json';
-
 
 import './App.css';
 import course from "./data/course.json";
