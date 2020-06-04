@@ -3,60 +3,40 @@ import moment from 'moment';
 import React from 'react';
 import axios from 'axios';
 import {Typeahead} from 'react-bootstrap-typeahead';
-import TimePicker from 'rc-time-picker';
 import Button from 'react-bootstrap/Button'
+import Form from 'react-bootstrap/Form';
+import Col from 'react-bootstrap/Col';
 
 import './App.css';
 import course from "./data/course.json";
 
-
-
-		
 const terms = ["Fall","Winter","Spring","Summer"];
 const date = new Date().getFullYear();
 const years = [String(date), String(date + 1)];
 const now = moment().hour(0).minute(0);
 const format = 'h:mm a';
 
-function onChange(value) {
-	console.log(value && value.format(format));
-  }
-  console.log(onChange)
-
-class App extends React.Component {
+class InputSection extends React.Component{
   constructor(props){
-	  super(props);
+    super(props);
+
     this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   handleInputChange(e){
-    this.setState({
-      [e.target.name]: e.target.value
-    })
+    this.props.onChange(e);
   }
   
-  handleSubmit(e) {
-	  e.preventDefault();
-	console.log(this.state);
+  handleClick(e) {
+	  this.props.onClick(e);
+  }
 
-    // LOCALHOST for now
-    // will most likely switch to a POST req
-    // api/term/course_id/start_time/end_time
-    const url = 'http://localhost:8000/api/'+this.state.term+'/'+this.state.course_id+'/'+this.state.start_time+'/'+this.state.end_time
-    
-    axios.get(url)
-	    .then(res => console.log(res));
-  }
-  
-  
-  
   render(){
-    
-	  return(
-		<div id="wrapper">
-			<main className= "main">
-				<section className = "main-1">	
+
+    return(
+      <div>
+        <section className = "main-1">	
 					<h1>
 						<span>Schedule Filler </span>
 						is a <span>web-based</span> tool that helps you
@@ -73,9 +53,10 @@ class App extends React.Component {
 						Lets start by searching for the course you are planning on taking
 						<Typeahead className="mt-5 mx-5 px-5"
 						{...this.course}
-						onChange={selected => this.setState({selected})}
+            id="selected_course"
+            onChange={this.handleInputChange}
 						options={course}
-						placeholder="Enter the course term?"
+						placeholder="Enter the course id"
 						aria-label="Enter the course term?"
 						aria-describedby="basic-addon1"/>
 					</h2>
@@ -88,7 +69,8 @@ class App extends React.Component {
 							What term does this course works for you best
 							<Typeahead className="mt-5 mx-5 px-5"
 							{...this.terms}
-							onChange={selected_term => this.setState({selected_term})}
+              id="selected_term"
+							onChange={this.handleInputChange}
 							options={terms}
 							placeholder="Enter the course term?"
 							aria-label="Enter the course term?"
@@ -101,7 +83,8 @@ class App extends React.Component {
 							And the Year 
 							<Typeahead className="mt-5 mx-5 px-5"
 							{...this.years}
-							onChange={selected_year => this.setState({selected_year})}
+              id="selected_year"
+							onChange={this.handleInputChange}
 							options={years}
 							placeholder="Enter the year the course will be taken?"
 							aria-label="Enter the year the course will be taken?"
@@ -116,29 +99,113 @@ class App extends React.Component {
 				<h2>
 					Lastly, We'll need to know what time you want to take this course
 					<div className = "course-term2">
-						<TimePicker className="mt-5 mx-1 px-5"
-						showSecond={false}
-						defaultValue={now}
-						onChange={selected_time => this.setState({selected_time})}
-						format={format}
-						use12Hours
-						inputReadOnly
-					/>
-						<div className = "result-button">
-							<Button variant="outline-info">Get Results</Button>{' '}
+            <Col lg={{span:4, offset:4}} md={{span:4, offset:4}}>
+              <Form.Control
+                type="time"
+                name="start_time"
+                onChange={this.handleInputChange}
+              />
+            </Col>
+            <div className = "result-button">
+							<Button
+                type="submit"
+                onClick={this.handleClick}
+                variant="outline-info">
+                Get Results
+              </Button>
 						</div>
-					
 					</div>
 				</h2>
 			</section>
-			<section className = "term-select animated fade-in delay"  data-animation-in="fade-in">
-				<h2>
-				The following course is/is not being offered at:
-				</h2>
+      </div>
+    );
+  }
+}
 
-			</section>
-			</main>
-		</div>
+class ResultSection extends React.Component{
+  render(){
+
+    let res_header = "No courses match your criteria"
+    const courses = [];
+    if(this.props.data.length > 0){
+      this.props.data.forEach(course =>{
+        // TODO: Styling
+        // TODO: pagination for long results
+        courses.push(<p>{course.Course_code} {course.Course_start}-{course.Course_end}</p>)
+      })
+      if(this.props.data.length > 2)
+        res_header = "The following courses match your criteria"
+      else
+        res_header ="The following course match your criteria"
+    }
+
+    return(
+      <section className = "term-select animated fade-in delay result_section"  data-animation-in="fade-in">
+        <h2>{res_header}</h2>
+        {courses}
+      </section>
+    );
+  }
+}
+
+class App extends React.Component {
+  constructor(props){
+	  super(props);
+    this.state = {
+      courses_data: [],
+      selected_term: 'all',
+      selected_year: 'all',
+      selected_course: 'all',
+      selected_time: 'all',
+    }
+    
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleInputChange(e){
+    // since Typehead only returns the value
+    // and not an event, we are forced to
+    // use if statements to determine which state changes
+    if(e.target == undefined){
+      const value = e[0]
+      if(terms.includes(value))
+        this.setState({selected_term:value})
+      else if(years.includes(value))
+        this.setState({selected_year:value})
+      else
+        this.setState({selected_course:value})
+    }
+    else{
+      this.setState({selected_time:e.target.value})
+    }
+    //TODO: handle case where user leaves blank
+    // state value should be set to 'all'
+  }
+  
+  handleClick(e) {
+	  e.preventDefault();
+	  console.log(this.state);
+
+    // /term/term_year/course_id/start_time
+    const url = 'http://localhost:8000/api/'+this.state.selected_term+'/'+this.state.selected_year+'/'+this.state.selected_course+'/'+this.state.selected_time
+    
+    axios.get(url)
+	    .then(res => {
+        console.log(res.data);
+        this.setState({courses_data:res.data})
+      });
+  }
+    
+  render(){
+	  return(
+	    <div>
+        <InputSection
+          onClick={this.handleClick}
+          onChange={this.handleInputChange}
+        />
+        <ResultSection data={this.state.courses_data}/>
+      </div>	  
 	  );
   }
 }
