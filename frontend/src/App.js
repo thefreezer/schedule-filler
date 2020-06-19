@@ -1,4 +1,3 @@
-import 'rc-time-picker/assets/index.css';
 import moment from 'moment';
 import React from 'react';
 import axios from 'axios';
@@ -186,11 +185,8 @@ class App extends React.Component {
   handleClick(e) {
 	  e.preventDefault();
 	  console.log(this.state);
-
-    // /term/term_year/course_id/start_time
-    const url = 'http://localhost:8000/api/'+this.state.selected_term+'/'+this.state.selected_year+'/'+this.state.selected_course+'/'+this.state.selected_time
     
-    axios.get(url)
+    axios.post('api/backend.php', this.state)
 	    .then(res => {
         console.log(res.data);
         this.setState({courses_data:res.data})
