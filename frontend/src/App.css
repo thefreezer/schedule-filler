@@ -76,6 +76,18 @@
   text-align: center;
 }
 
+.result_section{
+  /* display: flex; */
+  align-items: flex-start;
+  width: 100%;
+  margin: 0px auto;
+  padding: 100px 0px;
+  min-height: 100vh;
+  max-width: 1000px;
+  justify-content: center;
+  text-align: center;
+}
+
 .term-final{
   display: flex;
   align-items: flex-start;
@@ -103,6 +115,13 @@ a,a:hover{
 h1{
   font-size: 53.28px;
   color: #fff;
+}
+
+p{
+  padding-top: 40px;
+/*   padding: 25px 0px 0px 0px; */
+  font-size: 180%;
+  font-weight: bolder;
 }
 
 h1 span{
