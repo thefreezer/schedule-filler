@@ -142,7 +142,6 @@ class ResultSection extends React.Component{
       <section className = "result_section animated fade-in delay "  data-animation-in="fade-in">
         <h2>{res_header}</h2>
         {courses}
-        console.log(courses)
       </section>
     );
   }
